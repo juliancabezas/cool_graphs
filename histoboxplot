@@ -1,3 +1,10 @@
+#' ---
+#' title: "Histogram with boxplot and optional table of summary statistics"
+#' author: "Julian Cabezas"
+#' date: "Version 0.2, 27-11-2018"
+#' ---
+
+#Function designed for positive vectors, with several outliers that cant be seen in the histogram
 
 library(ggplot2)
 library(grid)
@@ -6,6 +13,8 @@ library(gridExtra)
 histoboxplot<-function (x,binw=round((max(x)-min(x))/30,1),xmin=floor(min(x)-(abs(min(x)*0.05))),
 xmax=ceiling(max(x)+(max(x)*0.05)),ylab="Absolute Frequency",xlab="Variable",
 title="histoboxplot",sumtable=FALSE,language="english") {
+# x = A vector
+# lenguage can be "spanish or "english"
 
 df<-data.frame(x=x)
 
