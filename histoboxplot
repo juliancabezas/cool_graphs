@@ -73,16 +73,19 @@ hist_box<-hist_in +
 
 if (sumtable) {
 
-sum<-summary(df$x)
-
-
+# Calculate CV
+sum[7]<-(sd(df$x)/mean(df$x))*100
 
 if (language=="spanish") {
-sum.df<-data.frame(cbind(Estadístico=c("Mínimo","Mediana","Media","Máximo"),Valor=round(as.vector(sum),2)[c(1,3,4,6)]),row.names=NULL)
+sum.df<-data.frame(cbind(Estadístico=c("Mínimo","Mediana","Media","Máximo","CV (%)"),Valor=round(as.vector(sum),2)[c(1,3,4,6,7)]),row.names=NULL)
 }
 
 if (language=="english") {
-  sum.df<-data.frame(cbind(Statistic =c("Minimum","Median","Mean","Maximum"),Value=round(as.vector(sum),2)[c(1,3,4,6)]),row.names=NULL)
+  sum.df<-data.frame(cbind(Statistic =c("Minimum","Median","Mean","Maximum","CV (%)"),Value=round(as.vector(sum),2)[c(1,3,4,6,7)]),row.names=NULL)
+}
+
+if (!(language %in% c('spanish','english'))) {
+  stop("languaje not supported, select spanish or english")
 }
 
 tt1 <- tt1 <- gridExtra::ttheme_default(
