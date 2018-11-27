@@ -16,12 +16,11 @@ title="histoboxplot",sumtable=FALSE,language="english") {
 # x = A vector
 # lenguage can be "spanish or "english"
 
+# Convert x to data.frame
 df<-data.frame(x=x)
 
-binw
-
+#Calculate frecuencies according to binwhith
 df$freq<-cut(df$x,breaks=seq(xmin,xmax,binw))
-df$freq
 
 #Calculate maximum frequency
 ymax<-max(tapply(df$x,df$freq,length),na.rm=TRUE)
@@ -29,6 +28,7 @@ ymax<-max(tapply(df$x,df$freq,length),na.rm=TRUE)
 #More or less 30% of extra space for the boxplot
 ymax<-ymax+ymax*0.3
 
+# Histogram
 hist_in<-ggplot(df, aes(x=x)) +
   geom_histogram(color="black",fill="lightblue",breaks=seq(xmin,xmax,binw),size=0.2) +
   ylab(ylab) +
@@ -39,7 +39,7 @@ hist_in<-ggplot(df, aes(x=x)) +
   ggtitle(title) +
   theme_gray(14)
 
-
+# Boxplot
 box_in<-ggplot(df,aes(x=factor(0),x))+
   geom_boxplot(outlier.size = 0.8,lwd=0.5,fill="lightblue")+
   coord_flip() +
@@ -62,15 +62,15 @@ box_in<-ggplot(df,aes(x=factor(0),x))+
   ) +
   labs(x = NULL, y = NULL)
 
+#Cobvert to grob object
 box_grob <- ggplotGrob(box_in)
 
-
-
-# Insert el boxplot en el histograma
+# Insert the boxplot in the histogram
 hist_box<-hist_in + 
   annotation_custom(grob = box_grob, xmin = xmin, xmax = xmax, 
                     ymin = ymax*0.85, ymax = ymax)
 
+# In case you want a summary table
 if (sumtable) {
 
 #Summary table
@@ -91,6 +91,7 @@ if (!(language %in% c('spanish','english'))) {
   stop("languaje not supported, select spanish or english")
 }
 
+# Set theme for the table
 tt1 <- tt1 <- gridExtra::ttheme_default(
   core = list(fg_params=list(cex = 1)),
   colhead = list(fg_params=list(cex = 1)),
