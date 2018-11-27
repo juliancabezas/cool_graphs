@@ -73,6 +73,9 @@ hist_box<-hist_in +
 
 if (sumtable) {
 
+#Summary table
+sum<-summary(df$x)
+
 # Calculate CV
 sum[7]<-(sd(df$x)/mean(df$x))*100
 
